@@ -94,5 +94,4 @@ We may update this policy. The "Last updated" date above shows the latest versio
 
 ## Contact
 
-For questions about this policy, contact the developer using the contact email shown on the
-app's Google Play store listing.
+For questions about this policy, email networkanalyzer@echlonlabs.com.
