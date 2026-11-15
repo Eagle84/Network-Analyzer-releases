@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Network 3D Live — See every device on your network</title>
+<meta name="description" content="Network 3D Live scans your Wi-Fi and maps every connected device in a live view — spot intruders, check signal, and know exactly what's on your network. Private, on-device.">
+<link rel="icon" href="https://lh3.googleusercontent.com/23PLZICY1DRjiZWMkXGpOhVJ4r3R0qNwPANv-ZCUgSuxIqoHN-hr8gebBfvW1igO9o-4GA6nb4Jc_Fv3VVUL=s64">
+<meta property="og:title" content="Network 3D Live — See every device on your network">
+<meta property="og:description" content="Scan your Wi-Fi and map every connected device in a live view. Private, on-device.">
+<meta property="og:image" content="https://lh3.googleusercontent.com/23PLZICY1DRjiZWMkXGpOhVJ4r3R0qNwPANv-ZCUgSuxIqoHN-hr8gebBfvW1igO9o-4GA6nb4Jc_Fv3VVUL=s512">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#2563eb; --blue-deep:#1d4ed8; --cyan:#06b6d4; --cyan-soft:#67e8f9;
+    --ink:#0f1b2d; --ink-soft:#475569;
+    --bg:#f6f9fe; --paper:#ffffff; --ring:rgba(15,27,45,.08);
+    --shadow:0 18px 50px -18px rgba(15,27,45,.4);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);background:var(--paper);line-height:1.6;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:'Poppins',sans-serif;line-height:1.15;margin:0;letter-spacing:-.02em}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 24px}
+  .appicon{border-radius:22%;object-fit:cover;display:block}
+
+  header{position:sticky;top:0;z-index:50;backdrop-filter:blur(10px);background:rgba(255,255,255,.82);border-bottom:1px solid var(--ring)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .brand{display:flex;align-items:center;gap:11px;font-family:'Poppins';font-weight:700;font-size:19px}
+  .brand img{width:38px;height:38px;box-shadow:0 4px 12px -4px rgba(15,27,45,.4)}
+  .nav-links{display:flex;gap:28px;align-items:center}
+  .nav-links a{color:var(--ink-soft);font-weight:500;font-size:15px;transition:color .2s}
+  .nav-links a:hover{color:var(--blue)}
+  .nav-cta{background:var(--ink);color:#fff;padding:10px 18px;border-radius:999px;font-weight:600;font-size:14px;transition:transform .15s,background .2s}
+  .nav-cta:hover{transform:translateY(-1px);background:#1b2c45}
+  @media(max-width:760px){.nav-links{display:none}}
+
+  .hero{position:relative;overflow:hidden;background:radial-gradient(1200px 620px at 80% -5%, #0b2a5e 0%, #0f1b2d 55%);color:#eaf2ff;padding:84px 0 96px}
+  .grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(96,165,250,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(96,165,250,.08) 1px,transparent 1px);background-size:44px 44px;mask-image:radial-gradient(900px 600px at 70% 10%, #000 20%, transparent 80%)}
+  .nodes{position:absolute;inset:0;pointer-events:none}
+  .nodes span{position:absolute;width:7px;height:7px;border-radius:50%;background:var(--cyan-soft);box-shadow:0 0 14px 3px rgba(103,232,249,.6)}
+  .n1{top:16%;left:12%}.n2{top:68%;left:8%}.n3{top:34%;left:30%}.n4{top:80%;left:26%}.n5{top:22%;left:46%}
+  .hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
+  .badge-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(37,99,235,.18);color:var(--cyan-soft);font-weight:600;font-size:13px;padding:7px 14px;border-radius:999px;border:1px solid rgba(103,232,249,.3)}
+  .badge-pill .dot{width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 0 4px rgba(6,182,212,.25)}
+  .hero h1{font-size:clamp(34px,5vw,54px);font-weight:800;margin:22px 0 0;color:#fff}
+  .hero h1 .hl{color:var(--cyan-soft)}
+  .hero p.sub{font-size:19px;color:#b9c9e4;margin:20px 0 0;max-width:520px}
+  .stores{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
+  .store-btn{display:inline-flex;align-items:center;gap:12px;background:#fff;color:var(--ink);padding:12px 22px;border-radius:14px;transition:transform .15s,box-shadow .2s;box-shadow:0 10px 24px -12px rgba(0,0,0,.5)}
+  .store-btn:hover{transform:translateY(-2px)}
+  .store-btn svg{width:26px;height:26px;flex:none}
+  .store-btn .st{display:flex;flex-direction:column;line-height:1.1}
+  .store-btn .st small{font-size:11px;opacity:.75;font-weight:500}
+  .store-btn .st b{font-size:17px;font-family:'Poppins';font-weight:600}
+  .store-btn.soon{background:rgba(255,255,255,.12);color:#cfe0ff;box-shadow:none;cursor:default;position:relative;border:1px solid rgba(255,255,255,.2)}
+  .store-btn.soon:hover{transform:none}
+  .store-btn.soon .tag{position:absolute;top:-9px;right:-9px;background:var(--cyan);color:#06243a;font-size:10px;font-weight:700;padding:3px 8px;border-radius:999px}
+  .hero-note{margin-top:18px;font-size:13.5px;color:#9db2d6}
+  .hero-note a{color:var(--cyan-soft);font-weight:600}
+
+  /* Phone mockup — network scanner */
+  .phone-stage{display:flex;justify-content:center;position:relative}
+  .phone{position:relative;width:308px;border-radius:42px;background:#060d18;padding:11px;box-shadow:var(--shadow);border:1px solid rgba(255,255,255,.14)}
+  .notch{position:absolute;top:20px;left:50%;transform:translateX(-50%);width:84px;height:7px;border-radius:999px;background:#1a2740;z-index:3}
+  .screen{border-radius:32px;overflow:hidden;background:#0b1424;height:600px;display:flex;flex-direction:column;color:#dbe6fb}
+  .sbar{display:flex;justify-content:space-between;align-items:center;padding:12px 18px 4px;font-size:12px;font-weight:600;color:#9db2d6}
+  .appbar{padding:8px 16px 14px;background:linear-gradient(120deg,#123a7e,#0e2a5c)}
+  .appbar .top{display:flex;align-items:center;justify-content:space-between}
+  .appbar .ttl{display:flex;align-items:center;gap:9px;font-family:'Poppins';font-weight:600;font-size:16px;color:#fff}
+  .appbar .ttl img{width:26px;height:26px;border-radius:7px}
+  .appbar .acts{color:#cfe0ff;font-size:15px}
+  .radar{margin:10px 16px 6px;height:150px;border-radius:16px;background:radial-gradient(circle at 50% 50%, #0e2552 0%, #0b1424 72%);position:relative;overflow:hidden;border:1px solid rgba(96,165,250,.2)}
+  .ring{position:absolute;border:1px solid rgba(103,232,249,.22);border-radius:50%;left:50%;top:50%;transform:translate(-50%,-50%)}
+  .r1{width:60px;height:60px}.r2{width:110px;height:110px}.r3{width:160px;height:160px}
+  .sweep{position:absolute;left:50%;top:50%;width:75px;height:75px;transform-origin:left top;background:conic-gradient(from 0deg, rgba(103,232,249,.35), transparent 60deg);border-radius:50% 0 0 0}
+  .blip{position:absolute;width:9px;height:9px;border-radius:50%;background:var(--cyan-soft);box-shadow:0 0 10px 2px rgba(103,232,249,.7)}
+  .b1{left:36%;top:30%}.b2{left:64%;top:40%}.b3{left:48%;top:66%}.b4{left:70%;top:66%}.b5{left:30%;top:56%}
+  .radar .center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:14px;height:14px;border-radius:50%;background:#fff;box-shadow:0 0 12px 3px rgba(255,255,255,.6)}
+  .scanrow{display:flex;justify-content:space-between;align-items:center;padding:4px 18px 8px;font-size:11.5px;color:#9db2d6}
+  .scanrow b{color:#fff;font-family:'Poppins';font-weight:600}
+  .devs{padding:2px 14px;overflow:hidden;flex:1}
+  .dev{display:flex;gap:11px;align-items:center;background:#0f1d33;border:1px solid rgba(96,165,250,.14);border-radius:13px;padding:10px 12px;margin-bottom:8px}
+  .dev .ic{width:36px;height:36px;border-radius:9px;flex:none;display:grid;place-items:center;font-size:17px;background:#15305f}
+  .dev .meta{flex:1;min-width:0}
+  .dev .meta .t{font-weight:600;font-size:13px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .dev .meta .s{font-size:10.5px;color:#8ba3cc;margin-top:1px}
+  .sig{display:flex;gap:2px;align-items:flex-end;height:16px}
+  .sig i{width:3px;background:var(--cyan-soft);border-radius:1px;display:block}
+  .warn{font-size:9.5px;font-weight:700;color:#ffb4b4;background:rgba(220,38,38,.18);padding:3px 7px;border-radius:999px;white-space:nowrap}
+  .bnav{background:#0a1220;border-top:1px solid rgba(96,165,250,.14);display:flex;justify-content:space-around;padding:9px 0 12px}
+  .bnav div{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9.5px;color:#7f97c0;font-weight:600}
+  .bnav div.on{color:var(--cyan-soft)}
+  .bnav .bi{font-size:16px}
+
+  .strip{background:#eef3fb;padding:20px 0}
+  .strip .wrap{display:flex;flex-wrap:wrap;gap:14px 34px;justify-content:center;align-items:center;color:var(--ink-soft);font-size:14px;font-weight:500}
+  .strip b{color:var(--ink)}
+
+  section.block{padding:84px 0}
+  .eyebrow{text-align:center;color:var(--blue);font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase}
+  .block h2{text-align:center;font-size:clamp(27px,3.6vw,38px);font-weight:700;margin:12px auto 0;max-width:660px}
+  .block .lead{text-align:center;color:var(--ink-soft);font-size:17px;max-width:600px;margin:16px auto 0}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:52px}
+  .card{background:#fff;border:1px solid var(--ring);border-radius:20px;padding:28px;transition:transform .2s,box-shadow .2s}
+  .card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+  .card .emoji{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;font-size:24px;background:#e3edfd;margin-bottom:18px}
+  .card:nth-child(2) .emoji{background:#e0f7fb}.card:nth-child(3) .emoji{background:#eae7fb}
+  .card:nth-child(4) .emoji{background:#fde7ec}.card:nth-child(5) .emoji{background:#e7f6ee}.card:nth-child(6) .emoji{background:#fdf1e0}
+  .card h3{font-size:19px;font-weight:600;margin-bottom:8px}
+  .card p{color:var(--ink-soft);font-size:15px;margin:0}
+  @media(max-width:900px){.cards{grid-template-columns:1fr 1fr}}
+  @media(max-width:620px){.cards{grid-template-columns:1fr}}
+
+  .how{background:linear-gradient(180deg,#eef3fb,#fbfcff)}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:52px}
+  .step{text-align:center;padding:12px}
+  .step .n{width:48px;height:48px;border-radius:50%;background:var(--blue);color:#fff;font-family:'Poppins';font-weight:700;font-size:20px;display:grid;place-items:center;margin:0 auto 16px;box-shadow:0 10px 22px -10px rgba(37,99,235,.8)}
+  .step h3{font-size:18px;font-weight:600;margin-bottom:6px}
+  .step p{color:var(--ink-soft);font-size:15px;margin:0}
+  @media(max-width:700px){.steps{grid-template-columns:1fr;gap:34px}}
+
+  .cta{background:linear-gradient(120deg,#0e2a5c,#2563eb);color:#fff;border-radius:28px;padding:56px 40px;text-align:center;margin:0 auto;position:relative;overflow:hidden}
+  .cta::after{content:"";position:absolute;right:-60px;top:-60px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.1)}
+  .cta h2{font-size:clamp(26px,3.4vw,36px);color:#fff;position:relative}
+  .cta p{margin:14px auto 0;max-width:520px;opacity:.92;font-size:17px;position:relative}
+  .cta .stores{justify-content:center;position:relative}
+  .cta .store-btn.soon{background:rgba(255,255,255,.18);color:#eaf2ff;border-color:rgba(255,255,255,.3)}
+  .cta .store-btn.soon .tag{background:#fff;color:var(--ink)}
+
+  footer{padding:54px 0 40px;border-top:1px solid var(--ring);margin-top:84px}
+  .foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:28px}
+  .foot .brand{font-size:18px}
+  .foot nav{display:flex;flex-wrap:wrap;gap:22px}
+  .foot nav a{color:var(--ink-soft);font-size:14.5px;font-weight:500}
+  .foot nav a:hover{color:var(--blue)}
+  .foot-note{margin-top:26px;color:var(--ink-soft);font-size:13px;max-width:640px}
+  .foot-note a{color:var(--blue);font-weight:600}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top">
+      <img class="appicon" src="https://lh3.googleusercontent.com/23PLZICY1DRjiZWMkXGpOhVJ4r3R0qNwPANv-ZCUgSuxIqoHN-hr8gebBfvW1igO9o-4GA6nb4Jc_Fv3VVUL=s96" alt="Network 3D Live">
+      Network 3D Live
+    </a>
+    <nav class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="https://github.com/Eagle84/Network-Analyzer-releases/releases/latest" target="_blank" rel="noopener">Download APK</a>
+      <a class="nav-cta" href="#get">Get the app</a>
+    </nav>
+  </div>
+</header>
+
+<a id="top"></a>
+<section class="hero">
+  <div class="grid-bg"></div>
+  <div class="nodes"><span class="n1"></span><span class="n2"></span><span class="n3"></span><span class="n4"></span><span class="n5"></span></div>
+  <div class="wrap hero-grid">
+    <div>
+      <span class="badge-pill"><span class="dot"></span>Private network scanner for Android</span>
+      <h1>See every device on your <span class="hl">network</span>, live.</h1>
+      <p class="sub">Network 3D Live scans your Wi-Fi and maps everything connected in a live view — phones, laptops, smart devices and anything you didn't expect. Check signal, spot intruders, and know exactly what's on your network.</p>
+      <div class="stores" id="get">
+        <a class="store-btn" href="https://play.google.com/store/apps/details?id=com.echlonlabs.networkanalyzer" target="_blank" rel="noopener">
+          <svg viewBox="0 0 512 512" aria-hidden="true"><path fill="#00D4FF" d="M78 8v496c0 9 8 13 14 7l135-135-135-135L92 1c-6-6-14-2-14 7z"/><path fill="#00F076" d="M78 8c0-5 3-8 7-8 2 0 4 1 7 3l180 104-56 56L78 8z"/><path fill="#FFC107" d="M272 107l80 46c14 8 14 28 0 36l-80 46-56-56 56-56z"/><path fill="#FF3A44" d="M92 509c-2 2-4 3-7 3-4 0-7-3-7-8l145-145 56 56L92 509z"/></svg>
+          <span class="st"><small>GET IT ON</small><b>Google Play</b></span>
+        </a>
+        <span class="store-btn soon">
+          <span class="tag">Coming soon</span>
+          <svg viewBox="0 0 384 512" aria-hidden="true"><path fill="currentColor" d="M318 268c-1-57 46-84 48-85-26-38-67-43-81-44-34-3-67 20-84 20s-44-20-73-19c-37 1-72 22-91 55-39 68-10 168 28 223 19 27 41 57 70 56 28-1 39-18 73-18s43 18 73 17c30-1 49-27 67-54 21-31 30-61 30-62-1-1-58-22-58-89z"/><path fill="currentColor" d="M263 57c15-19 26-45 23-71-22 1-49 15-65 34-14 16-27 43-24 68 25 2 50-13 66-31z"/></svg>
+          <span class="st"><small>Download on the</small><b>App Store</b></span>
+        </span>
+      </div>
+      <p class="hero-note">Android 8.0+ · Free · No ads · Scans run on your device. Prefer a direct install? <a href="https://github.com/Eagle84/Network-Analyzer-releases/releases/latest" target="_blank" rel="noopener">Download the APK</a>.</p>
+    </div>
+
+    <div class="phone-stage">
+      <div class="phone">
+        <div class="notch"></div>
+        <div class="screen">
+          <div class="sbar"><span>9:41</span><span>··· ▪ 100%</span></div>
+          <div class="appbar">
+            <div class="top">
+              <div class="ttl"><img class="appicon" src="https://lh3.googleusercontent.com/23PLZICY1DRjiZWMkXGpOhVJ4r3R0qNwPANv-ZCUgSuxIqoHN-hr8gebBfvW1igO9o-4GA6nb4Jc_Fv3VVUL=s64" alt="">Network 3D Live</div>
+              <div class="acts">⟳</div>
+            </div>
+          </div>
+          <div class="radar">
+            <div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div>
+            <div class="sweep"></div>
+            <div class="center"></div>
+            <div class="blip b1"></div><div class="blip b2"></div><div class="blip b3"></div><div class="blip b4"></div><div class="blip b5"></div>
+          </div>
+          <div class="scanrow"><span>Network: <b>Home-WiFi</b></span><span><b>6</b> devices found</span></div>
+          <div class="devs">
+            <div class="dev">
+              <div class="ic">📶</div>
+              <div class="meta"><div class="t">TP-Link Router</div><div class="s">192.168.0.1 · Gateway</div></div>
+              <div class="sig"><i style="height:6px"></i><i style="height:9px"></i><i style="height:12px"></i><i style="height:16px"></i></div>
+            </div>
+            <div class="dev">
+              <div class="ic">📱</div>
+              <div class="meta"><div class="t">iPhone 15</div><div class="s">192.168.0.24 · Apple, Inc.</div></div>
+              <div class="sig"><i style="height:6px"></i><i style="height:9px"></i><i style="height:12px"></i><i style="height:10px"></i></div>
+            </div>
+            <div class="dev">
+              <div class="ic">💻</div>
+              <div class="meta"><div class="t">Work Laptop</div><div class="s">192.168.0.31 · Intel</div></div>
+              <div class="sig"><i style="height:6px"></i><i style="height:9px"></i><i style="height:8px"></i><i style="height:6px"></i></div>
+            </div>
+            <div class="dev">
+              <div class="ic">❓</div>
+              <div class="meta"><div class="t">Unknown device</div><div class="s">192.168.0.57 · unidentified</div></div>
+              <div class="warn">New</div>
+            </div>
+          </div>
+          <div class="bnav">
+            <div class="on"><span class="bi">◎</span>Scan</div>
+            <div><span class="bi">🗺️</span>Map</div>
+            <div><span class="bi">📋</span>Devices</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="strip">
+  <div class="wrap">
+    <span>📡 <b>Live device discovery</b></span>
+    <span>🗺️ <b>3D network map</b></span>
+    <span>🛡️ <b>Spot unknown devices</b></span>
+    <span>🔒 <b>Runs on your device</b></span>
+  </div>
+</div>
+
+<section class="block" id="features">
+  <div class="wrap">
+    <p class="eyebrow">Why Network 3D Live</p>
+    <h2>Know your network like the back of your hand</h2>
+    <p class="lead">A fast, visual way to see what's connected, how strong it is, and whether anything doesn't belong.</p>
+    <div class="cards">
+      <div class="card"><div class="emoji">📡</div><h3>Instant device discovery</h3><p>Scan your Wi-Fi and see every connected device in seconds — with IP, vendor, and hostname where available.</p></div>
+      <div class="card"><div class="emoji">🗺️</div><h3>Live 3D map</h3><p>Watch your network come alive as an interactive map of nodes, so you can see how everything connects at a glance.</p></div>
+      <div class="card"><div class="emoji">🛡️</div><h3>Spot intruders</h3><p>New or unknown devices are flagged, so you'll notice when something joins your network that shouldn't be there.</p></div>
+      <div class="card"><div class="emoji">📶</div><h3>Signal &amp; reach</h3><p>Check signal strength and connection quality to find dead spots and the best place for your router.</p></div>
+      <div class="card"><div class="emoji">⚡</div><h3>Router quick access</h3><p>Jump straight to common router admin pages (including TP-Link) to manage your network without hunting for the address.</p></div>
+      <div class="card"><div class="emoji">🔒</div><h3>Private by design</h3><p>Scans run locally on your phone. Your network details stay with you — nothing is uploaded to a server.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="block how" id="how">
+  <div class="wrap">
+    <p class="eyebrow">Getting started</p>
+    <h2>From install to full map in seconds</h2>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><h3>Install &amp; open</h3><p>Get Network 3D Live from Google Play and open it on the Wi-Fi you want to inspect.</p></div>
+      <div class="step"><div class="n">2</div><h3>Run a scan</h3><p>Tap scan and watch devices appear on the live radar and map as they're discovered.</p></div>
+      <div class="step"><div class="n">3</div><h3>Explore &amp; secure</h3><p>Tap any device for details, check signal, and flag anything that looks out of place.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" style="padding-top:0">
+  <div class="wrap">
+    <div class="cta">
+      <h2>See what's really on your network</h2>
+      <p>Network 3D Live is free, lightweight and built for Android. Scan in seconds and stay in control.</p>
+      <div class="stores">
+        <a class="store-btn" href="https://play.google.com/store/apps/details?id=com.echlonlabs.networkanalyzer" target="_blank" rel="noopener">
+          <svg viewBox="0 0 512 512" aria-hidden="true"><path fill="#00D4FF" d="M78 8v496c0 9 8 13 14 7l135-135-135-135L92 1c-6-6-14-2-14 7z"/><path fill="#00F076" d="M78 8c0-5 3-8 7-8 2 0 4 1 7 3l180 104-56 56L78 8z"/><path fill="#FFC107" d="M272 107l80 46c14 8 14 28 0 36l-80 46-56-56 56-56z"/><path fill="#FF3A44" d="M92 509c-2 2-4 3-7 3-4 0-7-3-7-8l145-145 56 56L92 509z"/></svg>
+          <span class="st"><small>GET IT ON</small><b>Google Play</b></span>
+        </a>
+        <a class="store-btn" href="https://github.com/Eagle84/Network-Analyzer-releases/releases/latest" target="_blank" rel="noopener" style="background:rgba(255,255,255,.14);color:#eaf2ff;border:1px solid rgba(255,255,255,.3)">
+          <span class="st"><small>Direct install</small><b>Download APK</b></span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <a class="brand" href="#top">
+        <img class="appicon" src="https://lh3.googleusercontent.com/23PLZICY1DRjiZWMkXGpOhVJ4r3R0qNwPANv-ZCUgSuxIqoHN-hr8gebBfvW1igO9o-4GA6nb4Jc_Fv3VVUL=s64" alt="Network 3D Live">
+        Network 3D Live
+      </a>
+      <nav>
+        <a href="#features">Features</a>
+        <a href="#how">How it works</a>
+        <a href="https://github.com/Eagle84/Network-Analyzer-releases/releases/latest" target="_blank" rel="noopener">Download APK</a>
+        <a href="PRIVACY.md">Privacy</a>
+        <a href="mailto:networkanalyzer@echlonlabs.com">Contact</a>
+      </nav>
+    </div>
+    <p class="foot-note">
+      Network 3D Live is an independent project by <a href="https://echlonlabs.com" target="_blank" rel="noopener">EchlonLabs</a>. Questions? <a href="mailto:networkanalyzer@echlonlabs.com">networkanalyzer@echlonlabs.com</a>
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
